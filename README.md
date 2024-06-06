@@ -1,27 +1,13 @@
-# TimelessRides
+This is the Timeless Rides website Code
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.5.
+This page containes the pages: Home, Marketplace, Discussion Forum, Profile, and Timeline.
 
-## Development server
+The Carousel, Nav-bar, and Nav-button components are referenced in the Home component.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+the Nav-button controls the routes to all of the different pages, these pages are setup as components
 
-## Code scaffolding
+The routing is done in app-routing.module.ts, where the different pages are imported as components, and are then given routes using the Routes class.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Lazy loading occurs in the home page, the function sits in the main.ts file
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Calling a function from a js file: I created a file names mysql.js in the assets directory. In that file, I created a function with a return statement. Then, I referenced that file in angular.json. Then, I declared the function as const object in profile.component.ts. I created an object of this imported function object in the export class, and then called it in the html file.

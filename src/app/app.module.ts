@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -14,12 +14,37 @@ import { CarouselComponent } from './carousel/carousel.component';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import { MenuOptionsComponent } from './menu-options/menu-options.component';
+import { MenuButtonComponent } from './menu-button/menu-button.component';
+import {MatMenuModule} from '@angular/material/menu';
+import { TimelineComponent } from './timeline/timeline.component';
+import { MarketplaceComponent } from './marketplace/marketplace.component';
+import { DiscussionComponent } from './discussion/discussion.component';
+import { ProfileComponent } from './profile/profile.component';
+import { HomeComponent } from './home/home.component';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from "@angular/common";
+import { TopicsComponent } from './topics/topics.component';
+import { NewsComponent } from './news/news.component';
+import { SignupComponent } from './signup/signup.component';
+import { ReactiveFormsModule } from '@angular/forms'
+import { DataService } from './shared/data.service';
 @NgModule({
   declarations: [
     AppComponent,
     NavBarComponent,
     CarouselComponent,
-    MenuOptionsComponent
+    MenuOptionsComponent,
+    MenuButtonComponent,
+    TimelineComponent,
+    MarketplaceComponent,
+    DiscussionComponent,
+    ProfileComponent,
+    HomeComponent,
+    TopicsComponent,
+    NewsComponent,
+    SignupComponent,
+
+
   ],
   imports: [
     BrowserModule,
@@ -31,11 +56,16 @@ import { MenuOptionsComponent } from './menu-options/menu-options.component';
     MatButtonModule,
     MatSidenavModule,
     MatDividerModule,
-    MatListModule
-
+    MatListModule,
+    MatMenuModule,
+    HttpClientModule,
+    FormsModule,
+    CommonModule,
+    ReactiveFormsModule,
+    
 
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
