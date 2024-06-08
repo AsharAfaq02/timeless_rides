@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DataService } from '../shared/data.service';
 import {Router} from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -24,15 +25,13 @@ export class SignupComponent {
       signup_reenter_password: ['']
     });
   }
+
   onSubmit() {
     // Update the TypeScript variables with form values
-  this.signup_username = this.form.get('signup_username')?.value;
-   this.signup_email = this.form.get('signup_email')?.value;
-   this.signup_password = this.form.get('signup_password')?.value;
-   this.signup_reenter_password = this.form.get('signup_reenter_password')?.value;
-
+    this.signup_username = this.form.get('signup_username')?.value;
+    this.signup_email = this.form.get('signup_email')?.value;
+    this.signup_password = this.form.get('signup_password')?.value;
+    this.signup_reenter_password = this.form.get('signup_reenter_password')?.value;
+    
   }
 }
- 
-
-
