@@ -28,6 +28,7 @@ import { NewsComponent } from './news/news.component';
 import { SignupComponent } from './signup/signup.component';
 import { ReactiveFormsModule } from '@angular/forms'
 import { DataService } from './shared/data.service';
+
 @NgModule({
   declarations: [
     AppComponent,
