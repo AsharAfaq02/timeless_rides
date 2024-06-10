@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { DataService } from '../shared/data.service';
 import {Router} from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -17,7 +18,7 @@ export class SignupComponent {
    signup_password: string = '';
    signup_reenter_password: string = '';
 
-   constructor(private fb: FormBuilder) {
+   constructor(private fb: FormBuilder, private http: HttpClient) {
     this.form = this.fb.group({
       signup_username: [''],
       signup_email: [''],
@@ -32,6 +33,11 @@ export class SignupComponent {
     this.signup_email = this.form.get('signup_email')?.value;
     this.signup_password = this.form.get('signup_password')?.value;
     this.signup_reenter_password = this.form.get('signup_reenter_password')?.value;
+
+    const signup_data = [this.signup_username,this.signup_email,this.signup_password, this.signup_reenter_password];
+
+    JSON.stringify(signup_data);
     
-  }
+    }
+    
 }
