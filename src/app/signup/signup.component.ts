@@ -1,43 +1,54 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { DataService } from '../shared/data.service';
-import {Router} from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserServiceService } from '../services/user-service.service'
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent {
-  form: FormGroup;
+export class SignupComponent implements OnInit{
+  form: FormGroup; //non null assertion?
+  submitted = false;
+  constructor(private fb: FormBuilder, private service: UserServiceService) {}
 
-
-   signup_username: string = '';
-   signup_email: string = '';
-   signup_password: string = '';
-   signup_reenter_password: string = '';
-
-   constructor(private fb: FormBuilder, private http: HttpClient) {
+  ngOnInit(){
     this.form = this.fb.group({
-      signup_username: [''],
-      signup_email: [''],
-      signup_password: [''],
-      signup_reenter_password: ['']
-    });
+      username: [''],
+      email: [''],
+      pass_word: [''],
+      reenter_password: ['']
+    }, { validator: this.passwordMatchValidator });
   }
 
-  onSubmit() {
-    // Update the TypeScript variables with form values
-    this.signup_username = this.form.get('signup_username')?.value;
-    this.signup_email = this.form.get('signup_email')?.value;
-    this.signup_password = this.form.get('signup_password')?.value;
-    this.signup_reenter_password = this.form.get('signup_reenter_password')?.value;
+  passwordMatchValidator(form: FormGroup) {
+    const password = form.get('pass_word')?.value;
+    const reenterPassword = form.get('reenter_password')?.value;
+    return password === reenterPassword ? null : { mismatch: true };
+  }
+  createPost() {
+    this.submitted = true;
+  if (this.form.valid && !this.form.errors?.['mismatch']) {
+      const postData = {
+        username: this.form.value.username,
+        email: this.form.value.email,
+        pass_word: this.form.value.pass_word
+      };
 
-    const signup_data = [this.signup_username,this.signup_email,this.signup_password, this.signup_reenter_password];
-
-    JSON.stringify(signup_data);
-    
+      this.service.createPost(postData).subscribe(
+        (response: any) => {
+          console.log("Successful Post", response);
+        },
+        (error: any) => {
+          console.error("Error posting", error);
+        }
+      );
+    } else {
+      console.error("Form is invalid");
     }
-    
+  }
+  hasPasswordMismatchError() {
+    return this.form.errors?.['mismatch'] && this.submitted;
+  }
 }
+

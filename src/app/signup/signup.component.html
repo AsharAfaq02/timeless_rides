@@ -33,29 +33,31 @@
         <div class="modal-body">
         <!-- DATA HERE--> 
       
-            <form [formGroup]="form" (ngSubmit)="onSubmit()" >
+            <form (submit) = "createPost()" [formGroup]="form">
               <div class = "form-inline">
               <div class="form-row">
-                <input id="signup_username" formControlName="signup_username" class="form-control mb-2 mr-sm-1" placeholder="username">
+                <input id="username" formControlName="username" class="form-control mb-2 mr-sm-1" placeholder="username">
              
                 <div class="input-group mb-2 mr-sm-2">
                   <div class="input-group-prepend">
                     <div class="input-group-text">&#64;</div>
                   </div>
-                <input class="form-control" placeholder = "email" id="signup_email" formControlName="signup_email"  >
+                <input class="form-control" placeholder = "email" id="email" formControlName="email"  >
                 </div>
                 </div>
               </div>
-                <input placeholder = "password" id="signup_password" formControlName="signup_password" class="form-control mb-2 mr-sm-1" >
+                <input  placeholder = "password" id="pass_word" formControlName="pass_word" class="form-control mb-2 mr-sm-1" >
 
-                <input placeholder = "reenter password" id="signup_reenter_password" formControlName="signup_reenter_password" class="form-control mb-2 mr-sm-1" >
+                <input placeholder = "reenter password" id="reenter_password" formControlName="reenter_password" class="form-control mb-2 mr-sm-1" >
   
+                <div *ngIf="hasPasswordMismatchError()" class="alert alert-danger sm" role="alert">
+                  Passwords do not match.
+                </div>
+               
+
                 <button type="submit" class="btn btn-primary">Submit</button>
               
-                <p>username: {{ signup_username }}</p>
-                <p>Email: {{ signup_email }}</p>
-                <p>pass: {{ signup_password}}</p>
-                <p>reent_pass: {{ signup_reenter_password}}</p>
+               
             </form>
            
           </div>

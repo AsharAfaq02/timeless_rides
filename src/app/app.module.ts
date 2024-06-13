@@ -47,7 +47,7 @@ import { DataService } from './shared/data.service';
 
 
   ],
-  imports: [
+  imports:[
     BrowserModule,
     AppRoutingModule,
     MatToolbarModule,
@@ -62,9 +62,7 @@ import { DataService } from './shared/data.service';
     HttpClientModule,
     FormsModule,
     CommonModule,
-    ReactiveFormsModule,
-    
-
+    ReactiveFormsModule
   ],
   providers: [DataService],
   bootstrap: [AppComponent]
