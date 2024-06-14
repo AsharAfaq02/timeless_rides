@@ -4,3 +4,10 @@
     padding: 5px;
     margin-left: 15%;
   }
+  @media only screen {
+    .options_container {
+      width: 80%;
+      height: 400px;
+      padding: 5px;
+    }
+  }

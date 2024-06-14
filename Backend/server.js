@@ -44,29 +44,30 @@ app.post('/signup', async (req, res) => {
     }
   });
 app.post('/login', async (req, res) => {
-  const { username, email, pass_word } = req.body;
+  const {email, pass_word } = req.body;
   try {
    
-    const user = await db.tutorials.findOne(
-      
-      
-      { where: {email }  });
-    
-     if (user) {
-      console.log("user log posted");
-     const password_valid = await bcrypt.compareSync(pass_word, user.pass_word);
-        if(password_valid){
-          res.status(200).send({message: 'Validated Password'})
-     }
-     else{
-      res.status(400).send({error: 'User not found'});
-     }
-    }
+    const user = await db.tutorials.findOne({ where: {email}});
+    console.log("user log posted");
+   
 
-  } catch (error) {
-    res.status(400).send({error: 'Incorrect Email or Password'});
-  }
-  });
+    if(!user){
+      return res.status(400).send({error: 'User not found'});
+     }
+
+     const password_valid = await bcrypt.compareSync(pass_word, user.pass_word);
+     if (!password_valid) {
+      // Password is incorrect
+      return res.status(400).send({ error: 'Incorrect Email or Password' });
+    }
+    
+    res.status(200).send({ message: 'Validated Password' });
+  
+    } catch (error) {
+      res.status(400).send({error: 'Incorrect Email or Password'});
+   
+    }
+    });
 
 
 // set port, listen for requests

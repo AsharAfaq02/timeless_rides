@@ -18,7 +18,6 @@ export class SignupComponent implements OnInit{
 
   form_login: FormGroup;
   user_notFound = false;
-  password_incorrect = false;
   login_submitted = false;
   success_login = false;
 
@@ -121,43 +120,36 @@ export class SignupComponent implements OnInit{
 
 
   login_submit()  {
-  this.login_submitted = true;
-  this.user_notFound = false;
-  this.password_incorrect = false;
-    const login_post = {
-      email: this.form_login.value.login_email,
-      pass_word: this.form_login.value.login_password
-    };
-    this.service.login_submit(login_post).subscribe(
-      (response: any) => {
-        console.log("Successful Post", response.message);
-        this.success_login = true;
-      },
-      (error: any) => {
-        this.success_login = false;
-        console.log(JSON.stringify(error.error).length);
-        const err_login = JSON.stringify(error.error).length;
-
-        if(err_login == 39){
-          this.user_notFound = true;
-        }
-        if(err_login == 26){
-          this.password_incorrect = true;
-        }
-
-      });
-      
+    this.login_submitted = true;
+    this.user_notFound = false;
+      const login_post = {
+        email: this.form_login.value.login_email,
+        pass_word: this.form_login.value.login_password
+      };
+      this.service.login_submit(login_post).subscribe(
+        (response: any) => {
+          console.log("Successful Post", response.message);
+          this.success_login = true;
+        },
+        (error: any) => {
+          this.success_login = false;
+          console.log(JSON.stringify(error.error).length);
+          const err_login = JSON.stringify(error.error).length;
   
-}
-
-alert_user_notFound(){
-  return this.user_notFound && this.login_submitted;
-}
-alert_pass_incorrect(){
-  return this.password_incorrect && this.login_submitted; 
-}
-login_success(){
-  return this.success_login && this.login_submitted;
-}
-}
-
+          if(err_login == 39){
+            this.user_notFound = true;
+          }
+         
+  
+        });
+  
+  
+  }
+  
+  alert_user_notFound(){
+    return this.user_notFound && this.login_submitted;
+  }
+  login_success(){
+    return this.success_login && this.login_submitted;
+  }
+  }

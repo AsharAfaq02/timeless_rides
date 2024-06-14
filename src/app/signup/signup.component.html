@@ -21,16 +21,13 @@
             <input  placeholder = "login password" id="login_password" formControlName="login_password" class="form-control mb-2 mr-sm-1" >
           
             <div *ngIf="alert_user_notFound()" class="alert alert-danger" role="alert">
-              User not found.
-            </div>
-
-            <div *ngIf="alert_pass_incorrect()" class="alert alert-danger" role="alert">
-              Password is incorrect
+              User not found, try again or signup.
             </div>
 
             <div *ngIf="login_success()" class="alert alert-success">
               Login successful!
             </div>
+
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
       
