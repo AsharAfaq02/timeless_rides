@@ -7,11 +7,14 @@ import { Observable } from 'rxjs';
 })
 export class UserServiceService {
 
-  private url = "http://localhost:8080/users";
+  private url = "http://192.168.86.51:8080";
   constructor(private httpClient: HttpClient) { }
 
   createPost(data: any){
-    return this.httpClient.post(this.url, data);
+    return this.httpClient.post(`${this.url}/signup`, data);
+  }
+  login_submit(data: any){
+    return this.httpClient.post(`${this.url}/login`, data);
   }
 }
 

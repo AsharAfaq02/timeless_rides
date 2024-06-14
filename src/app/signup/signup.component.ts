@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserServiceService } from '../services/user-service.service'
-import { HttpErrorResponse } from '@angular/common/http';
-import { ParseError } from '@angular/compiler';
-import { parseJsonText } from 'typescript';
+import { UserServiceService } from '../services/user-service.service';
+
 
 @Component({
   selector: 'app-signup',
@@ -16,9 +14,18 @@ export class SignupComponent implements OnInit{
   emailInUse = false;
   too_short_password = false;
   too_short_username = false;
+  success_signup = false;
+
+  form_login: FormGroup;
+  user_notFound = false;
+  password_incorrect = false;
+  login_submitted = false;
+  success_login = false;
+
   constructor(private fb: FormBuilder, private service: UserServiceService) {}
 
   ngOnInit(){
+    
     this.form = this.fb.group({
       username: ['',Validators.required],
       email: ['', Validators.required],
@@ -27,7 +34,14 @@ export class SignupComponent implements OnInit{
     }, 
     
     { validator: this.passwordMatchValidator });
+
+    this.form_login = this.fb.group({
+      login_email: [''],
+      login_password: ['']
+    });
+
   }
+
 
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('pass_word')?.value;
@@ -60,24 +74,29 @@ export class SignupComponent implements OnInit{
       this.service.createPost(postData).subscribe(
         (response: any) => {
           console.log("Successful Post", response.message);
+          this.success_signup = true;
           
         },
         (error: any) => {
-          console.log(JSON.stringify(error.error).length);
+          console.log(JSON.stringify(error.error));
           const email_err = JSON.stringify(error.error).length;
-
-          if(email_err == 51){
+          this.success_signup = false;
+          if(email_err == 26){
             console.log("please enter new email");
+
             this.emailInUse = true;
           }
           
         }
+
+
         
       );
     } else {
       console.error("Form is invalid");
     }
   }
+
   hasPasswordMismatchError() {
     return this.form.errors?.['mismatch'] && this.submitted;
   }
@@ -90,5 +109,55 @@ export class SignupComponent implements OnInit{
   username_too_short(){
     return this.submitted &&  this.too_short_username;
   }
+
+  signup_success(){
+    return this.success_signup && this.submitted
+  }
+
+
+
+
+
+
+
+  login_submit()  {
+  this.login_submitted = true;
+  this.user_notFound = false;
+  this.password_incorrect = false;
+    const login_post = {
+      email: this.form_login.value.login_email,
+      pass_word: this.form_login.value.login_password
+    };
+    this.service.login_submit(login_post).subscribe(
+      (response: any) => {
+        console.log("Successful Post", response.message);
+        this.success_login = true;
+      },
+      (error: any) => {
+        this.success_login = false;
+        console.log(JSON.stringify(error.error).length);
+        const err_login = JSON.stringify(error.error).length;
+
+        if(err_login == 39){
+          this.user_notFound = true;
+        }
+        if(err_login == 26){
+          this.password_incorrect = true;
+        }
+
+      });
+      
+  
+}
+
+alert_user_notFound(){
+  return this.user_notFound && this.login_submitted;
+}
+alert_pass_incorrect(){
+  return this.password_incorrect && this.login_submitted; 
+}
+login_success(){
+  return this.success_login && this.login_submitted;
+}
 }
 

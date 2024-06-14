@@ -4,7 +4,9 @@ module.exports = (sequelize, Sequelize) => {
     const Tutorial = sequelize.define("users", {
      
       username: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+       
       },
       email: {
         type: Sequelize.STRING,
@@ -20,8 +22,10 @@ module.exports = (sequelize, Sequelize) => {
         }
       },
       pass_word: {
-        type: Sequelize.STRING
-      }
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      
     },
     {
      hooks: {
@@ -31,15 +35,7 @@ module.exports = (sequelize, Sequelize) => {
         user.pass_word = bcrypt.hashSync(user.pass_word, salt);
        }
       }
-     },
-     instanceMethods: {
-      validPassword: (pass_word) => {
-       return bcrypt.compareSync(pass_word, this.pass_word);
-      }
      }
     });
-    Tutorial.prototype.validPassword = async (pass_word, hash) => {
-      return await bcrypt.compareSync(pass_word, hash);
-    }
     return Tutorial;
   };

@@ -9,12 +9,39 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        
+
+
+        <!-- login body -->
+
+        <div class = "modal-body">
+          <form (submit) = "login_submit()" [formGroup]="form_login">
+
+            <p style = "font-size:small;">Username must be greater than 5 characters.</p>
+            <input id="login_email" formControlName="login_email" class="form-control mb-2 mr-sm-1" placeholder="please enter email">
+            <input  placeholder = "login password" id="login_password" formControlName="login_password" class="form-control mb-2 mr-sm-1" >
+          
+            <div *ngIf="alert_user_notFound()" class="alert alert-danger" role="alert">
+              User not found.
+            </div>
+
+            <div *ngIf="alert_pass_incorrect()" class="alert alert-danger" role="alert">
+              Password is incorrect
+            </div>
+
+            <div *ngIf="login_success()" class="alert alert-success">
+              Login successful!
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+      
+            </div>
+          
         <div class="modal-footer">
             <!-- Link to sign up page-->
 
           <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModal1" data-whatever="@fat" data-dismiss="modal">New Account</button>
         </div>
+    
      
       </div>
     </div>
@@ -66,6 +93,10 @@
 
                 <div *ngIf="username_too_short()" class="alert alert-danger" role="alert">
                   username too short
+                </div>
+
+                <div *ngIf="signup_success()" class="alert alert-success">
+                  Signup successful!
                 </div>
                 
 
