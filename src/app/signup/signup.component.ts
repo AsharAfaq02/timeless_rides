@@ -32,13 +32,14 @@ export class SignupComponent implements OnInit{
       reenter_password: ['']
     }, 
     
-    { validator: this.passwordMatchValidator });
+    { validator: this.passwordMatchValidator },
+  );
 
     this.form_login = this.fb.group({
       login_email: [''],
       login_password: ['']
-    });
-
+    }, );
+  
   }
 
 
@@ -47,23 +48,13 @@ export class SignupComponent implements OnInit{
     const reenterPassword = form.get('reenter_password')?.value;
     return password === reenterPassword ? null : { mismatch: true };
   }
+  
   createPost() {
     this.emailInUse = false;
-    this.too_short_password = false;
-    this.too_short_username = false;
-    
     this.submitted = true;
 
-    if(this.form.value.pass_word.length < 5){
-      this.too_short_password = true;
-    }
-
-    if(this.form.value.username.length < 5){
-      this.too_short_username = true;
-    }
-
-
   if (this.form.valid && !this.form.errors?.['mismatch']) {
+
       const postData = {
         username: this.form.value.username,
         email: this.form.value.email,
@@ -76,10 +67,12 @@ export class SignupComponent implements OnInit{
           this.success_signup = true;
           
         },
+
         (error: any) => {
           console.log(JSON.stringify(error.error));
           const email_err = JSON.stringify(error.error).length;
           this.success_signup = false;
+
           if(email_err == 26){
             console.log("please enter new email");
 
@@ -88,10 +81,10 @@ export class SignupComponent implements OnInit{
           
         }
 
-
-        
       );
-    } else {
+    }
+
+     else {
       console.error("Form is invalid");
     }
   }
@@ -99,14 +92,32 @@ export class SignupComponent implements OnInit{
   hasPasswordMismatchError() {
     return this.form.errors?.['mismatch'] && this.submitted;
   }
+
   email_inuse_alert() {
     return this.submitted && this.emailInUse;
   }
+
   pass_too_short(){
-    return this.submitted && this.too_short_password;
+    if(this.form.value.pass_word.length < 7 && this.form.value.pass_word.length != 0){
+      this.too_short_password = true;
+   
+    } else{
+      this.too_short_password= false;
+    
   }
-  username_too_short(){
-    return this.submitted &&  this.too_short_username;
+    return this.too_short_password;
+   
+  }
+
+  username_short_alert(){
+  if(this.form.value.username.length < 7 && this.form.value.username.length != 0){
+      this.too_short_username= true;
+    
+    } else{
+      this.too_short_username= false;
+    
+  }
+    return this.too_short_username;
   }
 
   signup_success(){
@@ -114,14 +125,10 @@ export class SignupComponent implements OnInit{
   }
 
 
-
-
-
-
-
   login_submit()  {
     this.login_submitted = true;
     this.user_notFound = false;
+    
       const login_post = {
         email: this.form_login.value.login_email,
         pass_word: this.form_login.value.login_password
@@ -135,10 +142,7 @@ export class SignupComponent implements OnInit{
           this.success_login = false;
           console.log(JSON.stringify(error.error).length);
           const err_login = JSON.stringify(error.error).length;
-  
-          if(err_login == 39){
-            this.user_notFound = true;
-          }
+          this.user_notFound = true
          
   
         });

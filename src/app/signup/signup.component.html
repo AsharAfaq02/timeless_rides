@@ -60,7 +60,7 @@
             <form (submit) = "createPost()" [formGroup]="form">
               <div class = "form-inline">
               <div class="form-row">
-                <p style = "font-size:small;">Username must be greater than 5 characters.</p>
+                <p style = "font-size:small;">Username must be greater than 7 characters.</p>
                 <input id="username" formControlName="username" class="form-control mb-2 mr-sm-1" placeholder="username">
                 <div class="input-group mb-2 mr-sm-2">
                   <div class="input-group-prepend">
@@ -72,9 +72,10 @@
               </div>
               
                 <input  placeholder = "password" id="pass_word" formControlName="pass_word" class="form-control mb-2 mr-sm-1" >
-                <p style = "font-size:small;">password must be greater than 5 characters.</p>
 
                 <input placeholder = "reenter password" id="reenter_password" formControlName="reenter_password" class="form-control mb-2 mr-sm-1" >
+                
+                <p style = "font-size:small;">password must be greater than 7 characters.</p>
                 
                 <div *ngIf="hasPasswordMismatchError()" class="alert alert-danger" role="alert">
                   Passwords do not match.
@@ -88,7 +89,7 @@
                   password too short
                 </div>
 
-                <div *ngIf="username_too_short()" class="alert alert-danger" role="alert">
+                <div *ngIf="username_short_alert()" class="alert alert-danger" role="alert">
                   username too short
                 </div>
 
