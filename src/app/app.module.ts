@@ -27,7 +27,7 @@ import { TopicsComponent } from './topics/topics.component';
 import { NewsComponent } from './news/news.component';
 import { SignupComponent } from './signup/signup.component';
 import { ReactiveFormsModule } from '@angular/forms'
-import { DataService } from './shared/data.service';
+
 
 @NgModule({
   declarations: [
@@ -64,7 +64,7 @@ import { DataService } from './shared/data.service';
     CommonModule,
     ReactiveFormsModule
   ],
-  providers: [DataService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
