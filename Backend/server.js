@@ -5,7 +5,15 @@ const app = express();
 
 const db = require("./models");
 
+const exec_chatgpt = require("./chatGPT_car.js");
+
 const bcrypt = require('bcrypt');
+
+const fs = require('fs');
+
+if (fs.existsSync('./car_chatGPT.json')) {
+  fs.unlinkSync('./car_chatGPT.json');
+}
 
 const IP_ADDRESS = 'localhost';
 
@@ -51,7 +59,6 @@ app.post('/login', async (req, res) => {
    
     const user = await db.tutorials.findOne({ where: {email}});
     console.log("user log posted");
-   
 
     if(!user){
       return res.status(400).send({error: 'User not found'});
@@ -81,12 +88,30 @@ app.post('/login', async (req, res) => {
         model: model
       }
 
+      const into_chatGPT = JSON.stringify(mess);
+
+      fs.writeFileSync("car_chatGPT.json", into_chatGPT);
+
+      
+      
+
       try {
 
         console.log(year, make, model);
 
         res.send({message: JSON.stringify(mess)});
+
+        const chat_gpt_message = exec_chatgpt;
+
+        console.log(chat_gpt_message)
+
+        
+
        
+
+       
+// Write the stringified object to a file
+      
        
       }catch (error) {
         res.status(400).send({error: 'blah'});
