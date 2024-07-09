@@ -1,20 +1,21 @@
 const express = require("express");
 const cors = require("cors");
-
+const bodyParser = require('body-parser');
 const app = express();
 
 const db = require("./models");
 
 const bcrypt = require('bcrypt');
 
-const IP_ADDRESS = '192.168.86.51';
+const IP_ADDRESS = 'localhost';
 
 var corsOptions = {
-  origin: "http://192.168.86.51:4200"
+  origin: "http://localhost:4200"
 };
 
 app.use(cors(corsOptions));
 
+app.use(bodyParser.json());
 // parse requests of content-type - application/json
 app.use(express.json());
 
@@ -43,6 +44,7 @@ app.post('/signup', async (req, res) => {
       res.status(400).send({message: 'Invalid Form'});
     }
   });
+
 app.post('/login', async (req, res) => {
   const {email, pass_word } = req.body;
   try {
@@ -68,7 +70,32 @@ app.post('/login', async (req, res) => {
    
     }
     });
+    
+    //newest post for searchCar tool, not done
+    app.post('/searchCar', async (req, res) => {
+      const {year, make, model } = req.body;
+      
+      mess = {
+        year: year,
+        make: make,
+        model: model
+      }
 
+      try {
+
+        console.log(year, make, model);
+
+        res.send({message: JSON.stringify(mess)});
+       
+       
+      }catch (error) {
+        res.status(400).send({error: 'blah'});
+     
+      }
+    });
+   
+        
+       
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

@@ -27,7 +27,7 @@ import { TopicsComponent } from './topics/topics.component';
 import { NewsComponent } from './news/news.component';
 import { SignupComponent } from './signup/signup.component';
 import { ReactiveFormsModule } from '@angular/forms'
-
+import { LogoutButtonComponent } from './logout-button/logout-button.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +44,7 @@ import { ReactiveFormsModule } from '@angular/forms'
     TopicsComponent,
     NewsComponent,
     SignupComponent,
+    LogoutButtonComponent
 
 
   ],

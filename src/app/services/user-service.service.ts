@@ -6,8 +6,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserServiceService {
+  searchCarSubmit(search_form: any) {
+    throw new Error('Method not implemented.');
+  }
 
-  private url = "http://192.168.86.51:8080";
+  private url = "http://localhost:8080";
   constructor(private httpClient: HttpClient) { }
 
   createPost(data: any){
@@ -15,6 +18,9 @@ export class UserServiceService {
   }
   login_submit(data: any){
     return this.httpClient.post(`${this.url}/login`, data);
+  }
+  searchCar(data: any){
+    return this.httpClient.post(`${this.url}/searchCar`, data);
   }
 }
 

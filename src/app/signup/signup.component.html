@@ -58,10 +58,10 @@
         <!-- DATA HERE--> 
       
             <form (submit) = "createPost()" [formGroup]="form">
-              <div class = "form-inline">
+             
               <div class="form-row">
                 <p style = "font-size:small;">Username must be greater than 7 characters.</p>
-                <input id="username" formControlName="username" class="form-control mb-2 mr-sm-1" placeholder="username">
+                <input (input)="onUsernameInput($event)" id="username" formControlName="username" class="form-control mb-2" placeholder="username">
                 <div class="input-group mb-2 mr-sm-2">
                   <div class="input-group-prepend">
                     <div class="input-group-text">&#64;</div>
@@ -69,9 +69,9 @@
                 <input class="form-control" placeholder = "email" id="email" formControlName="email"  >
                 </div>
                 </div>
-              </div>
               
-                <input  placeholder = "password" id="pass_word" formControlName="pass_word" class="form-control mb-2 mr-sm-1" >
+              
+                <input  placeholder = "password" id="pass_word" formControlName="pass_word" class="form-control mb-2" >
 
                 <input placeholder = "reenter password" id="reenter_password" formControlName="reenter_password" class="form-control mb-2 mr-sm-1" >
                 

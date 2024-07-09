@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-
+import { AuthService } from '../auth.service';
+import { Observable } from 'rxjs';
 declare const sayhello: any;
 
 @Component({
@@ -9,7 +10,10 @@ declare const sayhello: any;
 })
 export class ProfileComponent {
 
-heythere = sayhello();
-
-
+  User = localStorage.getItem('login')?.toString();
+  isLoggedin = localStorage.getItem('isLoggedin')?.toString();
+  
 }
+
+
+

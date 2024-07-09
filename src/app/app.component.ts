@@ -1,5 +1,6 @@
 
 import { Component} from '@angular/core';
+import { AuthService } from './auth.service';
 
 
 
@@ -11,11 +12,14 @@ import { Component} from '@angular/core';
 })
 export class AppComponent{
 
+  loggedIn: boolean;
   //display background image when initialized (referenced in styles.scss)
   ngOnInit() {
     document.body.className = "selector";
 
   }
+
+
   title = 'timeless_rides';
 
 
