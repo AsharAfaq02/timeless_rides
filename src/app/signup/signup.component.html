@@ -1,112 +1,121 @@
 <!-- login popup modal -->
-<button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Login</button>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Login</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-
-
-        <!-- login body -->
-
-        <div class = "modal-body">
-          <form (submit) = "login_submit()" [formGroup]="form_login">
-
-            <p style = "font-size:small;">Username must be greater than 5 characters.</p>
-            <input id="login_email" formControlName="login_email" class="form-control mb-2 mr-sm-1" placeholder="please enter email">
-            <input  placeholder = "login password" id="login_password" formControlName="login_password" class="form-control mb-2 mr-sm-1" >
-          
-            <div *ngIf="alert_user_notFound()" class="alert alert-danger" role="alert">
-              User not found, try again or signup.
-            </div>
-
-            <div *ngIf="login_success()" class="alert alert-success">
-              Login successful!
-            </div>
-
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-      
-            </div>
-          
-        <div class="modal-footer">
-            <!-- Link to sign up page-->
-
-          <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModal1" data-whatever="@fat" data-dismiss="modal">New Account</button>
-        </div>
-    
-     
+<button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModal"
+  data-whatever="@mdo">Login</button>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    </div>
-  </div>
 
-  <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Sign Up</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
 
-        <div class="modal-body">
-        <!-- DATA HERE--> 
-      
-            <form (submit) = "createPost()" [formGroup]="form">
-             
-              <div class="form-row">
-                <p style = "font-size:small;">Username must be greater than 7 characters.</p>
-                <input (input)="onUsernameInput($event)" id="username" formControlName="username" class="form-control mb-2" placeholder="username">
-                <div class="input-group mb-2 mr-sm-2">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">&#64;</div>
-                  </div>
-                <input class="form-control" placeholder = "email" id="email" formControlName="email"  >
-                </div>
-                </div>
-              
-              
-                <input  (input)="onPassInput($event)" placeholder = "password" id="pass_word" formControlName="pass_word" class="form-control mb-2" >
+      <!-- login body -->
 
-                <input (input)="onPassInput($event)" placeholder = "reenter password" id="reenter_password" formControlName="reenter_password" class="form-control mb-2 mr-sm-1" >
-                
-                <p style = "font-size:small;">password must be greater than 7 characters.</p>
-                
-                <div *ngIf="hasPasswordMismatchError()" class="alert alert-danger" role="alert">
-                  Passwords do not match.
-                </div>
+      <div class="modal-body">
+        <form (submit)="login_submit()" [formGroup]="form_login">
 
-                <div *ngIf="email_inuse_alert()" class="alert alert-danger" role="alert">
-                  Email in already in use, (login link)
-                </div>
+          <p style="font-size:small;">Username must be greater than 5 characters.</p>
+          <input id="login_email" formControlName="login_email" class="form-control mb-2 mr-sm-1"
+            placeholder="please enter email">
+          <input placeholder="login password" id="login_password" formControlName="login_password"
+            class="form-control mb-2 mr-sm-1">
 
-                <div *ngIf="pass_too_short()" class="alert alert-danger" role="alert">
-                  password too short
-                </div>
-
-                <div *ngIf="username_short_alert()" class="alert alert-danger" role="alert">
-                  username too short
-                </div>
-
-                <div *ngIf="signup_success()" class="alert alert-success">
-                  Signup successful!
-                </div>
-                
-
-                <button type="submit" class="btn btn-primary">Submit</button>
-              
-               
-            </form>
-           
+          <div *ngIf="alert_user_notFound()" class="alert alert-danger" role="alert">
+            User not found, try again or signup.
           </div>
 
-        <div class="modal-footer">
-        </div>
+          <div *ngIf="login_success()" class="alert alert-success">
+            Login successful!
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+      </div>
+
+      <div class="modal-footer">
+        <!-- Link to sign up page-->
+
+        <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModal1"
+          data-whatever="@fat" data-dismiss="modal">New Account</button>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Sign Up</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- DATA HERE-->
+
+        <form (submit)="createPost()" [formGroup]="form">
+
+          <div class="form-row">
+            <p style="font-size:small;">Username must be greater than 7 characters.</p>
+            <input (input)="onUsernameInput($event)" id="username" formControlName="username" class="form-control mb-2"
+              placeholder="username">
+            <div class="input-group mb-2 mr-sm-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">&#64;</div>
+              </div>
+              <input class="form-control" placeholder="email" id="email" formControlName="email">
+            </div>
+          </div>
+
+
+          <input (input)="onPassInput($event)" placeholder="password" id="pass_word" formControlName="pass_word"
+            class="form-control mb-2">
+
+          <input (input)="onPassInput($event)" placeholder="reenter password" id="reenter_password"
+            formControlName="reenter_password" class="form-control mb-2 mr-sm-1">
+
+          <p style="font-size:small;">password must be greater than 7 characters.</p>
+
+          <div *ngIf="hasPasswordMismatchError()" class="alert alert-danger" role="alert">
+            Passwords do not match.
+          </div>
+
+          <div *ngIf="email_inuse_alert()" class="alert alert-danger" role="alert">
+            Email in already in use, (login link)
+          </div>
+
+          <div *ngIf="pass_too_short()" class="alert alert-danger" role="alert">
+            password too short
+          </div>
+
+          <div *ngIf="username_short_alert()" class="alert alert-danger" role="alert">
+            username too short
+          </div>
+
+          <div *ngIf="signup_success()" class="alert alert-success">
+            Signup successful!
+          </div>
+
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+
+
+        </form>
+
+      </div>
+
+      <div class="modal-footer">
       </div>
     </div>
   </div>
+</div>

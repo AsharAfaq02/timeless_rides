@@ -65,42 +65,33 @@ export class SignupComponent implements OnInit {
     this.emailInUse = false;
     this.submitted = true;
 
-    if (this.form.valid && !this.form.errors?.['mismatch']) {
+  if (this.form.valid && !this.form.errors?.['mismatch']) {
 
-      const postData = {
-        username: this.form.value.username,
-        email: this.form.value.email,
-        pass_word: this.form.value.pass_word
-      };
+  const postData = {
+  username: this.form.value.username,
+  email: this.form.value.email,
+  pass_word: this.form.value.pass_word
+  };
 
-      this.service.createPost(postData).subscribe(
-        (response: any) => {
-          console.log("Successful Post", response.message);
-          this.success_signup = true;
+  this.service.createPost(postData).subscribe(
+  (response: any) => {
+  console.log("Successful Post", response.message);
+  this.success_signup = true;
+      //session storage
+  localStorage.setItem('login', this.form.value.email);
+  localStorage.setItem('isLoggedin', 'true')
+  window.location.reload();
 
-          //session storage
-          localStorage.setItem('login', this.form.value.email);
-          localStorage.setItem('isLoggedin', 'true')
+  },
+  (error: any) => {
+  console.log(JSON.stringify(error.error));
+  const email_err = JSON.stringify(error.error).length;
+  this.success_signup = false;
 
-          window.location.reload();
-
-        },
-
-        (error: any) => {
-          console.log(JSON.stringify(error.error));
-          const email_err = JSON.stringify(error.error).length;
-          this.success_signup = false;
-
-          if (email_err == 26) {
-            console.log("please enter new email");
-
-            this.emailInUse = true;
-          }
-
-        }
-
-      );
-    }
+  if (email_err == 26) {
+    console.log("please enter new email");
+    this.emailInUse = true;
+  }});}
 
     else {
       console.error("Form is invalid");
@@ -118,23 +109,17 @@ export class SignupComponent implements OnInit {
   pass_too_short() {
     if (this.form.value.pass_word.length < 7 && this.form.value.pass_word.length != 0) {
       this.too_short_password = true;
-
     } else {
       this.too_short_password = false;
-
     }
     return this.too_short_password;
-
   }
 
   username_short_alert() {
     if (this.form.value.username.length < 7 && this.form.value.username.length != 0) {
-
       this.too_short_username = true;
-
     } else {
       this.too_short_username = false;
-
     }
     return this.too_short_username;
   }
@@ -143,42 +128,30 @@ export class SignupComponent implements OnInit {
     return this.success_signup && this.submitted
   }
 
-
   login_submit() {
     this.login_submitted = true;
     this.user_notFound = false;
-
     //session storage
     localStorage.setItem('login', this.form_login.value.login_email);
     localStorage.setItem('isLoggedin', 'true')
-
     const login_post = {
-      email: this.form_login.value.login_email,
-      pass_word: this.form_login.value.login_password
+    email: this.form_login.value.login_email,
+    pass_word: this.form_login.value.login_password
     };
 
-
     this.service.login_submit(login_post).subscribe(
-      (response: any) => {
-        console.log("Successful Post", response.message);
-        this.success_login = true;
-
+    (response: any) => {
+    console.log("Successful Post", response.message);
+    this.success_login = true;
         //reset window if login successful
-        window.location.reload();
-
-      },
-      (error: any) => {
-        this.success_login = false;
-        console.log(JSON.stringify(error.error).length);
-        const err_login = JSON.stringify(error.error).length;
-        this.user_notFound = true
-
-
-      });
-
-
-
-  }
+    window.location.reload();
+    },
+    (error: any) => {
+    this.success_login = false;
+    console.log(JSON.stringify(error.error).length);
+    const err_login = JSON.stringify(error.error).length;
+    this.user_notFound = true
+      }); }
 
   alert_user_notFound() {
     return this.user_notFound && this.login_submitted;
