@@ -5,21 +5,9 @@ const app = express();
 
 const db = require("./models");
 
-
-
 const bcrypt = require('bcrypt');
 
 const fs = require('fs');
-
-if (fs.existsSync('./car_chatGPT.json')) {
-  fs.unlinkSync('./car_chatGPT.json');
-}
-
-if (fs.existsSync('./response_chatGPT.txt')) {
-  fs.unlinkSync('./response_chatGPT.txt');
-}
-
-const exec_chatgpt = require("./chatGPT_car.js");
 
 const IP_ADDRESS = 'localhost';
 
@@ -85,42 +73,45 @@ app.post('/login', async (req, res) => {
     });
     
     //newest post for searchCar tool, not done
+    
+    async function executeGPT(prompt) {
+
+const OpenAI = require("openai");
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+})
+const fs = require('fs');
+console.log("running chatGPT")
+
+  content_string = "in line seperated paragraphs with bold titles, write a history, design/ build, and popular upgrades on this car: " + prompt;
+  const completion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+          {"role": "system", "content": "You are a car enthusiast, and have an expansive knowledge on all things cars."},
+          {"role": "user", "content": content_string }
+        ]
+  })
+  //fs.writeFileSync("response_chatGPT.txt", completion.choices[0].message['content']);
+  return completion.choices[0].message['content']
+
+}
     app.post('/searchCar', async (req, res) => {
       const {year, make, model } = req.body;
-      
       mess = {
         year: year,
         make: make,
         model: model
       }
-
-      const into_chatGPT = JSON.stringify(mess);
-
-      fs.writeFileSync("car_chatGPT.json", into_chatGPT);
-
       
-      
-
       try {
-
+        const into_chatGPT = JSON.stringify(mess);
+        const send_out = await executeGPT(into_chatGPT)
+        console.log(send_out)
         console.log(year, make, model);
+        res.send({message: JSON.stringify(send_out)});
 
-        res.send({message: JSON.stringify(mess)});
-
-        const chat_gpt_message = exec_chatgpt;
-
-        console.log(chat_gpt_message)
-
-        
-
-       
-
-       
-// Write the stringified object to a file
-      
-       
       }catch (error) {
-        res.status(400).send({error: 'blah'});
+        res.status(400).send({error: 'Error handling post'});
      
       }
     });
