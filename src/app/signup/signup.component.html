@@ -71,9 +71,9 @@
                 </div>
               
               
-                <input  placeholder = "password" id="pass_word" formControlName="pass_word" class="form-control mb-2" >
+                <input  (input)="onPassInput($event)" placeholder = "password" id="pass_word" formControlName="pass_word" class="form-control mb-2" >
 
-                <input placeholder = "reenter password" id="reenter_password" formControlName="reenter_password" class="form-control mb-2 mr-sm-1" >
+                <input (input)="onPassInput($event)" placeholder = "reenter password" id="reenter_password" formControlName="reenter_password" class="form-control mb-2 mr-sm-1" >
                 
                 <p style = "font-size:small;">password must be greater than 7 characters.</p>
                 

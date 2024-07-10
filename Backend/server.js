@@ -5,7 +5,7 @@ const app = express();
 
 const db = require("./models");
 
-const exec_chatgpt = require("./chatGPT_car.js");
+
 
 const bcrypt = require('bcrypt');
 
@@ -14,6 +14,12 @@ const fs = require('fs');
 if (fs.existsSync('./car_chatGPT.json')) {
   fs.unlinkSync('./car_chatGPT.json');
 }
+
+if (fs.existsSync('./response_chatGPT.txt')) {
+  fs.unlinkSync('./response_chatGPT.txt');
+}
+
+const exec_chatgpt = require("./chatGPT_car.js");
 
 const IP_ADDRESS = 'localhost';
 
