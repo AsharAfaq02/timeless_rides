@@ -20,7 +20,11 @@ export class UserServiceService {
     return this.httpClient.post(`${this.url}/login`, data);
   }
   searchCar(data: any){
-    return this.httpClient.post(`${this.url}/searchCar`, data);
+    return this.httpClient.post(`${this.url}/send_carSearch`, data);
+  }
+
+  getCar_wiki(): Observable<any>{
+    return this.httpClient.get<any>(`${this.url}/info_cars`, { responseType: 'text' as 'json' });
   }
 }
 
