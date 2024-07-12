@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 module.exports = (sequelize, Sequelize) => {
-    
+
     const Tutorial = sequelize.define("users", {
      
       username: {

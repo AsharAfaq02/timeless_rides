@@ -34,9 +34,12 @@ ngOnInit(){
   return html;
 }
 searchCarSubmit(){
+ 
+     // Access each element of the array
+
    setTimeout(() => {
         // Reset flag after submission
-      }, 500);
+      
   if (this.form_search.valid) { 
     this.year =  this.form_search.value.year;
     this.make = this.form_search.value.make;
@@ -44,18 +47,9 @@ searchCarSubmit(){
     this.form_validator = false;
     this.submitted_validator = true;
 
-    this.service.searchCar(this.form_search.value).subscribe(
-    (response: any) => {
-    // const html_string = this.markdownToHtml(JSON.stringify(response.message));
-    // this.chatGPT_response = html_string
-    console.log(response)
-    console.log("Successful Post");        
-    },
-    (error: any) => { 
-    console.log(JSON.stringify(error.error));
-      });
 
-    this.service.getCar_wiki().subscribe(
+    this.service.getCar_wiki(this.year, this.make, this.model).subscribe(
+
       (response: string) => {
         this.car_wiki_data = response;
         console.log("successfully retrieved Wiki page")
@@ -71,8 +65,11 @@ searchCarSubmit(){
   else{
     this.form_validator = true;
     this.submitted_validator = false;
-  }
+  }}, 800);
+  
 }
+
+
 
 invalidForm(){
   return this.form_validator;

@@ -19,12 +19,9 @@ export class UserServiceService {
   login_submit(data: any){
     return this.httpClient.post(`${this.url}/login`, data);
   }
-  searchCar(data: any){
-    return this.httpClient.post(`${this.url}/send_carSearch`, data);
-  }
 
-  getCar_wiki(): Observable<any>{
-    return this.httpClient.get<any>(`${this.url}/info_cars`, { responseType: 'text' as 'json' });
+  getCar_wiki(year : any, make : any, model : any): Observable<any>{
+    return this.httpClient.get<any>(`${this.url}/info_cars?year=${year}&make=${make}&model=${model}`, { responseType: 'text' as 'json' });
   }
 }
 

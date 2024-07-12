@@ -31,6 +31,7 @@ app.post('/send_carSearch', async (req, res) => {
   }
 
   try {
+    
     const car_form = JSON.stringify(mess);
     this.car_form_data = car_form
     // await if log car_form_data
@@ -40,34 +41,48 @@ app.post('/send_carSearch', async (req, res) => {
     res.status(400).send({ error: 'Error handling post' });
 
   }
+
 });
 app.get('/info_cars', async (req, res) => {
+  console.log("--------------------------")
+  
+  //console.log(req)
+  console.log(req.headers)
+  //console.log(req)
+  console.log("++++++++++++++++++++++++++++++++++")
+  
   if(fs.existsSync("car_wiki.html")){
     fs.unlinkSync("car_wiki.html")
   }
 
-  while(this.car_form_data == null){
-    console.log("awating car_form update")
-  }
+  // while(this.car_form_data == null){
+  //   console.log("awating car_form update")
+  // }
   console.log("at info: ")
-  console.log(JSON.parse(this.car_form_data))
+  //console.log(JSON.parse(this.car_form_data))
 
   // year = JSON.parse(this.car_form_data)['year']
   // year = JSON.stringify(year)
   // year = year.replace(/"([^"]+)":/g, '$1:');
-  make = ''
-  model = ''
+  
 
-  make = JSON.parse(this.car_form_data)['make']
-  make = JSON.stringify(make)
-  make = make.replace(/"([^"]+)":/g, '$1:');
 
-  model = JSON.parse(this.car_form_data)['model']
-  model = JSON.stringify(model)
-  model = model.replace(/"([^"]+)":/g, '$1:');
- 
+
+  // make = JSON.parse(this.car_form_data)['make']
+  // make = JSON.stringify(make)
+  // make = make.replace(/"([^"]+)":/g, '$1:');
+
+  // model = JSON.parse(this.car_form_data)['model']
+  // model = JSON.stringify(model)
+  // model = model.replace(/"([^"]+)":/g, '$1:');
+make = req.query['make']
+model = req.query['model']
+console.log('poop')
+console.log(make)
+console.log(model)
 
   query = make + ' ' + model
+  console.log(query)
   let url = 'https://api.wikimedia.org/core/v1/wikipedia/en/search/title?q='+query+'&limit=1';
 let response = await fetch( url,
     {
@@ -86,7 +101,6 @@ response.json()
         error_data = data
         jsonData = data['pages'][0]['key'];
         console.log(error_data)
-        jsonData = jsonData.replace(/"([^"]+)":/g, '$1:');
       } catch (error) {
 
         res.send("Invalid search, please try again");
@@ -104,9 +118,10 @@ response.json()
           }});
         response.text()
         .then(data => {
-        jsonData = JSON.stringify(data); // Store the JSON data in a variable
+        jsonData = JSON.stringify(data); 
         jsonData = jsonData.replace(/"([^"]+)":/g, '$1:');
-        //console.log(jsonData)
+       jsonData = jsonData.replace(/<img resource=\\"\.\/(.*?)\\"/g, '<img resource="https://en.wikipedia.org/wiki/$1"');
+       
 
         fs.writeFile("car_wiki.html", jsonData, (err) => {
           if (err) {
@@ -115,9 +130,7 @@ response.json()
               console.log('Data written to car_wiki.html')
           }
 
-          while(!fs.existsSync("car_wiki.html")){
-            console.log("awaiting upload to car_wiki.html")
-          }
+   
           console.log('car_wiki.html is updated')
 
           fs.readFile("./car_wiki.html", 'utf-8', (err, data) => {
@@ -126,7 +139,9 @@ response.json()
                 return;
             }
             console.log('posting file contents')
+            console.log(JSON.stringify(data))
             res.send(JSON.stringify(data));
+
           
           })
 
@@ -136,12 +151,6 @@ response.json()
   
 
 })
-
-
-
-
-
-
 
 app.post('/signup', async (req, res) => {
   const { username, email, pass_word } = req.body;
