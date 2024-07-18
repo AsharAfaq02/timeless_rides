@@ -48,11 +48,11 @@ export class SignupComponent implements OnInit {
     this.form.get('username')?.patchValue(newValue); // Update the form control value
   }
 
-  onPassInput(event: Event) {
+  onPassInput(event: Event, controller: any) {
     const inputElement = event.target as HTMLInputElement;
     const currentValue = inputElement.value;
     const newValue = currentValue.replace(/\s/g, '_'); // Replace spaces with underscores
-    this.form.get('pass_word')?.patchValue(newValue); // Update the form control value
+    this.form.get(controller)?.patchValue(newValue); // Update the form control value
   }
 
   passwordMatchValidator(form: FormGroup) {

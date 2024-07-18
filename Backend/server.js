@@ -6,6 +6,7 @@ const db = require("./models");
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 const IP_ADDRESS = 'localhost';
+let isFoundWiki = false;
 
 car_form_data = null;
 
@@ -25,17 +26,17 @@ app.get("/", (req, res) => {
 app.post('/send_carSearch', async (req, res) => {
   const { year, make, model } = req.body;
   mess = {
-  year: year,
-  make: make,
-  model: model
+    year: year,
+    make: make,
+    model: model
   }
 
   try {
-    
+
     const car_form = JSON.stringify(mess);
     this.car_form_data = car_form
     // await if log car_form_data
-    res.send({ message: car_form_data});
+    res.send({ message: car_form_data });
 
   } catch (error) {
     res.status(400).send({ error: 'Error handling post' });
@@ -44,112 +45,80 @@ app.post('/send_carSearch', async (req, res) => {
 
 });
 app.get('/info_cars', async (req, res) => {
-  console.log("--------------------------")
-  
-  //console.log(req)
-  console.log(req.headers)
-  //console.log(req)
-  console.log("++++++++++++++++++++++++++++++++++")
-  
-  if(fs.existsSync("car_wiki.html")){
-    fs.unlinkSync("car_wiki.html")
-  }
-
-  // while(this.car_form_data == null){
-  //   console.log("awating car_form update")
-  // }
-  console.log("at info: ")
-  //console.log(JSON.parse(this.car_form_data))
-
-  // year = JSON.parse(this.car_form_data)['year']
-  // year = JSON.stringify(year)
-  // year = year.replace(/"([^"]+)":/g, '$1:');
-  
-
-
-
-  // make = JSON.parse(this.car_form_data)['make']
-  // make = JSON.stringify(make)
-  // make = make.replace(/"([^"]+)":/g, '$1:');
-
-  // model = JSON.parse(this.car_form_data)['model']
-  // model = JSON.stringify(model)
-  // model = model.replace(/"([^"]+)":/g, '$1:');
-make = req.query['make']
-model = req.query['model']
-console.log('poop')
-console.log(make)
-console.log(model)
-
+  make = req.query['make']
+  model = req.query['model']
   query = make + ' ' + model
-  console.log(query)
-  let url = 'https://api.wikimedia.org/core/v1/wikipedia/en/search/title?q='+query+'&limit=1';
-let response = await fetch( url,
+  console.log('---Form query: ' + query + ' recieved---')
+  let url = 'https://api.wikimedia.org/core/v1/wikipedia/en/search/title?q=' + query + '&limit=1';
+  let response = await fetch(url,
     {
       headers: {
         'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzZmRlNzg5NmFjZGI4YWQ4YjBlNjI2NWExNDgwOWQxNSIsImp0aSI6ImZhOTk5YjQ5M2JkMzhkNWU0NjFkMWI1YTM1NTIyMzg5M2FiNDdkMzYxMzY4MGFiMmQ2YTUxYTljYzY5M2Y0NDczYmJlNDFmZDVhZGU1NWFjIiwiaWF0IjoxNzIwNjgwNzYyLjgxNTMwNiwibmJmIjoxNzIwNjgwNzYyLjgxNTMwOSwiZXhwIjozMzI3NzU4OTU2Mi44MTE3NDUsInN1YiI6Ijc2MDUwMDcxIiwiaXNzIjoiaHR0cHM6Ly9tZXRhLndpa2ltZWRpYS5vcmciLCJyYXRlbGltaXQiOnsicmVxdWVzdHNfcGVyX3VuaXQiOjUwMDAsInVuaXQiOiJIT1VSIn0sInNjb3BlcyI6WyJiYXNpYyJdfQ.GJrx93wbI-27ShdjoPTAB53Id-_XvR06yuYl6lMEACdDkLC9pPxhySrSMPJExv-tKChTDwri6n0oJZUDZCaVFVy7Yy5734n_LU1NDRUq2cZUtzxb30aEwbahzQq4nLqpHm6bCA-i-8IVdU0TAccyW-nqZxvsxgOg9I4VdC5AeWzNNXx1PnX5qYBwL5dCwv_Ga8z1mqs-KqislDrXUVeEAkbbovytisx_kwkM2Rj6i36Lq3_IJNPIgi9RM4dCJB67eviVwtgAkYFeGGC6mHriDtezW3K3xsBbf6wGbKLfXJgFGfBa2H0HLOZnzmAcW50lS1iNmrYN7Ddz3_6whKo_0JqzBYbbKVazU3Ll20EM3TLX673DWcZo3ME2v2S1cKiMj49Q6IMTumxyc1PsHNQJYHE2Jo5GH2UJR959HUobQ3DIWPFlDvA0NZAIMHiCmeJB7r_F5UPqwYwZYp2B2vt-3agAxLvYfSd9-YkXxZLGP9bA_258cnNQoR-69fihL0AprSMg_GVYxK-wVo8u2EGZvPHX-sNSIXG6X4jtoyMmV9qmKdfysOxRTHriXMixXvAytrhYkfkARNpVP9CcrWZPwHCFIic8RgOHfg7UjgatMLO-VBMY-ZSZGWbQ_-Y2Fx9eewtKmdfGWvNO2IRONC3d6oB_HCIh9s5FV-yMIBgq9Ck',
         'Api-User-Agent': 'http://localhost/8080/info_cars'
-        }
-    }
-);
-
-
-response.json()
-    .then(data => {
-
-      try {
-        error_data = data
-        jsonData = data['pages'][0]['key'];
-        console.log(error_data)
-      } catch (error) {
-
-        res.send("Invalid search, please try again");
       }
-    
-      })
+    }
+  );
+
+  console.log('----searching wiki for: ' + query + '----')
+  response.json()
+    .then(data => {
+      try {
+        jsonData = data
+        if (jsonData['pages'] == '') {
+          console.log("----no page found----")
+          isFoundWiki = false
+
+        }
+        else {
+          jsonData = data['pages'][0]['key'];
+          console.log("----found page: " + jsonData + "----");
+          isFoundWiki = true
+        }
+      } catch (error) {
+        res.send("request failure");
+      }
+    })
     .then(async () => {
-        console.log("found page: " + jsonData); // Log the variable when ready
-        url = 'https://api.wikimedia.org/core/v1/wikipedia/en/page/' + jsonData + '/html';
-        response = await fetch( url,
+
+      //console.log("----found page: " + jsonData + "----"); // Log the variable when ready
+      //jsonData
+      url = 'https://api.wikimedia.org/core/v1/wikipedia/en/page/' + jsonData + '/html';
+      response = await fetch(url,
         {
           headers: {
-              'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzZmRlNzg5NmFjZGI4YWQ4YjBlNjI2NWExNDgwOWQxNSIsImp0aSI6ImZhOTk5YjQ5M2JkMzhkNWU0NjFkMWI1YTM1NTIyMzg5M2FiNDdkMzYxMzY4MGFiMmQ2YTUxYTljYzY5M2Y0NDczYmJlNDFmZDVhZGU1NWFjIiwiaWF0IjoxNzIwNjgwNzYyLjgxNTMwNiwibmJmIjoxNzIwNjgwNzYyLjgxNTMwOSwiZXhwIjozMzI3NzU4OTU2Mi44MTE3NDUsInN1YiI6Ijc2MDUwMDcxIiwiaXNzIjoiaHR0cHM6Ly9tZXRhLndpa2ltZWRpYS5vcmciLCJyYXRlbGltaXQiOnsicmVxdWVzdHNfcGVyX3VuaXQiOjUwMDAsInVuaXQiOiJIT1VSIn0sInNjb3BlcyI6WyJiYXNpYyJdfQ.GJrx93wbI-27ShdjoPTAB53Id-_XvR06yuYl6lMEACdDkLC9pPxhySrSMPJExv-tKChTDwri6n0oJZUDZCaVFVy7Yy5734n_LU1NDRUq2cZUtzxb30aEwbahzQq4nLqpHm6bCA-i-8IVdU0TAccyW-nqZxvsxgOg9I4VdC5AeWzNNXx1PnX5qYBwL5dCwv_Ga8z1mqs-KqislDrXUVeEAkbbovytisx_kwkM2Rj6i36Lq3_IJNPIgi9RM4dCJB67eviVwtgAkYFeGGC6mHriDtezW3K3xsBbf6wGbKLfXJgFGfBa2H0HLOZnzmAcW50lS1iNmrYN7Ddz3_6whKo_0JqzBYbbKVazU3Ll20EM3TLX673DWcZo3ME2v2S1cKiMj49Q6IMTumxyc1PsHNQJYHE2Jo5GH2UJR959HUobQ3DIWPFlDvA0NZAIMHiCmeJB7r_F5UPqwYwZYp2B2vt-3agAxLvYfSd9-YkXxZLGP9bA_258cnNQoR-69fihL0AprSMg_GVYxK-wVo8u2EGZvPHX-sNSIXG6X4jtoyMmV9qmKdfysOxRTHriXMixXvAytrhYkfkARNpVP9CcrWZPwHCFIic8RgOHfg7UjgatMLO-VBMY-ZSZGWbQ_-Y2Fx9eewtKmdfGWvNO2IRONC3d6oB_HCIh9s5FV-yMIBgq9Ck',
-              'Api-User-Agent': 'http://localhost/8080/info_cars'
-          }});
-        response.text()
-        .then(data => {
-        jsonData = JSON.stringify(data); 
-        jsonData = jsonData.replace(/"([^"]+)":/g, '$1:');
-       jsonData = jsonData.replace(/<img resource=\\"\.\/(.*?)\\"/g, '<img resource="https://en.wikipedia.org/wiki/$1"');
-       
-
-        fs.writeFile("car_wiki.html", jsonData, (err) => {
-          if (err) {
-              console.error('Error writing to file:', err);
-          } else {
-              console.log('Data written to car_wiki.html')
+            'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzZmRlNzg5NmFjZGI4YWQ4YjBlNjI2NWExNDgwOWQxNSIsImp0aSI6ImZhOTk5YjQ5M2JkMzhkNWU0NjFkMWI1YTM1NTIyMzg5M2FiNDdkMzYxMzY4MGFiMmQ2YTUxYTljYzY5M2Y0NDczYmJlNDFmZDVhZGU1NWFjIiwiaWF0IjoxNzIwNjgwNzYyLjgxNTMwNiwibmJmIjoxNzIwNjgwNzYyLjgxNTMwOSwiZXhwIjozMzI3NzU4OTU2Mi44MTE3NDUsInN1YiI6Ijc2MDUwMDcxIiwiaXNzIjoiaHR0cHM6Ly9tZXRhLndpa2ltZWRpYS5vcmciLCJyYXRlbGltaXQiOnsicmVxdWVzdHNfcGVyX3VuaXQiOjUwMDAsInVuaXQiOiJIT1VSIn0sInNjb3BlcyI6WyJiYXNpYyJdfQ.GJrx93wbI-27ShdjoPTAB53Id-_XvR06yuYl6lMEACdDkLC9pPxhySrSMPJExv-tKChTDwri6n0oJZUDZCaVFVy7Yy5734n_LU1NDRUq2cZUtzxb30aEwbahzQq4nLqpHm6bCA-i-8IVdU0TAccyW-nqZxvsxgOg9I4VdC5AeWzNNXx1PnX5qYBwL5dCwv_Ga8z1mqs-KqislDrXUVeEAkbbovytisx_kwkM2Rj6i36Lq3_IJNPIgi9RM4dCJB67eviVwtgAkYFeGGC6mHriDtezW3K3xsBbf6wGbKLfXJgFGfBa2H0HLOZnzmAcW50lS1iNmrYN7Ddz3_6whKo_0JqzBYbbKVazU3Ll20EM3TLX673DWcZo3ME2v2S1cKiMj49Q6IMTumxyc1PsHNQJYHE2Jo5GH2UJR959HUobQ3DIWPFlDvA0NZAIMHiCmeJB7r_F5UPqwYwZYp2B2vt-3agAxLvYfSd9-YkXxZLGP9bA_258cnNQoR-69fihL0AprSMg_GVYxK-wVo8u2EGZvPHX-sNSIXG6X4jtoyMmV9qmKdfysOxRTHriXMixXvAytrhYkfkARNpVP9CcrWZPwHCFIic8RgOHfg7UjgatMLO-VBMY-ZSZGWbQ_-Y2Fx9eewtKmdfGWvNO2IRONC3d6oB_HCIh9s5FV-yMIBgq9Ck',
+            'Api-User-Agent': 'http://localhost/8080/info_cars'
           }
+        });
+      console.log("----generating wiki " + jsonData + "----");
+      response.text()
+        .then(data => {
+          jsonData = JSON.stringify(data);
+          jsonData = jsonData.replace(/"([^"]+)":/g, '$1:');
+          jsonData = jsonData.replace(/"\n"/g, '$1:');
+          jsonData = jsonData.replace(/<img resource=\\"\.\/(.*?)\\"/g, '<img resource="https://en.wikipedia.org/wiki/$1"');
 
-   
-          console.log('car_wiki.html is updated')
 
-          fs.readFile("./car_wiki.html", 'utf-8', (err, data) => {
+          fs.writeFile("car_wiki.html", jsonData, (err) => {
             if (err) {
+              console.error('Error writing to file:', err);
+            } else {
+              console.log('----Data written to car_wiki.html----')
+            }
+            fs.readFile("./car_wiki.html", 'utf-8', (err, data) => {
+              if (err) {
                 console.error('Error reading file:', err);
                 return;
-            }
-            console.log('posting file contents')
-            console.log(JSON.stringify(data))
-            res.send(JSON.stringify(data));
+              }
+              console.log('----sending file contents as HTTP Response---')
 
-          
+              res.send(data);
+
+
+            })
           })
-
         })
-      })
     })
-  
-
 })
 
 app.post('/signup', async (req, res) => {
@@ -186,43 +155,9 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// async function executeGPT(prompt) {
-//   const OpenAI = require("openai");
-//   const openai = new OpenAI({
-//     apiKey: process.env.OPENAI_API_KEY
-//   })
-//   const fs = require('fs');
-//   console.log("running chatGPT")
-//   content_string = "in line seperated paragraphs with bold titles, write a history, design/ build, and popular upgrades on this car: " + prompt;
-//   const completion = await openai.chat.completions.create({
-//   model: "gpt-3.5-turbo",
-//   messages: [
-//   { "role": "system", "content": "You are a car enthusiast, and have an expansive knowledge on all things cars." },
-//   { "role": "user", "content": content_string }
-//   ]})
-//   return completion.choices[0].message['content']
 
-// }
-// app.post('/searchCar', async (req, res) => {
-//   const { year, make, model } = req.body;
-//   mess = {
-//   year: year,
-//   make: make,
-//   model: model
-//   }
 
-//   try {
-//     const into_chatGPT = JSON.stringify(mess);
-//     const send_out = await executeGPT(into_chatGPT)
-//     console.log(send_out)
-//     console.log(year, make, model);
-//     res.send({ message: JSON.stringify(send_out) });
 
-//   } catch (error) {
-//     res.status(400).send({ error: 'Error handling post' });
-
-//   }
-// });
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, IP_ADDRESS, () => {
